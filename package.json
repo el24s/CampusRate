@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/node": "^26.6.2",
     "typescript": "^7.0.2"
   },
   "name": "campusrate",
@@ -11,5 +12,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^11.2.5",
+    "@nestjs/swagger": "^11.4.7",
+    "nestjs": "^0.0.1"
+  }
 }
