@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
  
-export class RatedPlaceEntity {
+export class RatedPlace {
     id: string;
     name: string;
     description: string;
