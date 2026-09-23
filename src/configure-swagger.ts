@@ -8,8 +8,8 @@
           "API REST de gestion d'appréciation pour des endroits ou services du campus.",
         )
         .setVersion('1.0.0')
-        .addTag('RatedPlace', 'Gestion des endroits ou services du campus')
-        .addTag('Appreciation', "Gestion d'appréciation ")
+        .addTag('Places', 'Gestion des endroits ou services du campus')
+        .addTag('Appreciationss', "Gestion d'appréciation ")
         .build();
 
       const documentFactory = () =>
