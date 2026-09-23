@@ -1,4 +1,11 @@
 import { Module } from '@nestjs/common';
+import { AppreciationsController } from './appreciations.controller';
+import { AppreciationsService } from './appreciations.service';
 
-@Module({})
-export class AppreciationsModule {}
+@Module({
+    providers:[AppreciationsService],
+    controllers:[AppreciationsController]
+})
+export class AppreciationsModule {
+    
+}
