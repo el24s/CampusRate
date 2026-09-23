@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-export class Appreciation {
+export class Appreciations {
     id: string;
     placeId: string;
     authorName: string;

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateRatedPlaceDto {
+export class CreatePlacesDto {
     @ApiProperty({
         description: "Le nom d'un endroit",
         example: "Bibliothèque principale",
