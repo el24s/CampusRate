@@ -1,13 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty } from "class-validator";
 
 export class CreateAppreciationssDto {
-    // @ApiProperty({
-    //     description: "L'id d'un endroit ou service",
-    //     example: "plc_01JABC123",
-    //     maxLength: 30
-    // })
-    // placeId: string;
-
     @ApiProperty({
         description: "Le nom ou pseudonyme de la personne",
         example: "Samira",
