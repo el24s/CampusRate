@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, MaxLength, Min, Max } from "class-validator";
 
 export class CreateAppreciationssDto {
     @ApiProperty({
@@ -7,6 +7,9 @@ export class CreateAppreciationssDto {
         example: "Samira",
         maxLength: 50
     })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     authorName: string;
     @ApiProperty({
         description: "La valeur de l'appréciation 1 à 5",
@@ -14,6 +17,9 @@ export class CreateAppreciationssDto {
         maximum: 5,
         minimum: 1
     })
+    @IsInt()
+    @Min(1)
+    @Max(5)
     rating: number;
     
     @ApiProperty({
@@ -21,5 +27,8 @@ export class CreateAppreciationssDto {
         example: "Calme et Wi-Fi stable",
         maxLength: 50
     })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     comment: string;
 }
