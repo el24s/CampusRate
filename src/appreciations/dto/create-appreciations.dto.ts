@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateAppreciationssDto {
+export class CreateAppreciationsDto {
     // @ApiProperty({
     //     description: "L'id d'un endroit ou service",
     //     example: "plc_01JABC123",
