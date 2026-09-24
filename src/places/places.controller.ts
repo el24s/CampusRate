@@ -106,18 +106,18 @@ export class PlacesController {
     }
 
     // filter
-    @ApiOperation({
-        summary: "Modifier des éléments d'un endroit ou d'un service",
-        description: "Modifie des éléments d'un endroit ou d'un service dans la collection courante"
-    })
-    @ApiOkResponse({
-        description: "Modification des éléments d'un endroit ou d'un service réussi",
-        type: Places,
-    })
-    @Get()
-    @Query()
-    filter() {
-        return this.placesService.filter();
+    // @ApiOperation({
+    //     summary: "Modifier des éléments d'un endroit ou d'un service",
+    //     description: "Modifie des éléments d'un endroit ou d'un service dans la collection courante"
+    // })
+    // @ApiOkResponse({
+    //     description: "Modification des éléments d'un endroit ou d'un service réussi",
+    //     type: Places,
+    // })
+    // @Get()
+    // @Query()
+    // filter() {
+    //     return this.placesService.filter();
 
-    }
+    // }
 }
