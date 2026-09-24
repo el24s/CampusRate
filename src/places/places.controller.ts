@@ -118,5 +118,6 @@ export class PlacesController {
     @Query()
     filter() {
         return this.placesService.filter();
+
     }
 }
