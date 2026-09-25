@@ -9,7 +9,7 @@
         )
         .setVersion('1.0.0')
         .addTag('Places', 'Gestion des endroits ou services du campus')
-        .addTag('Appreciationss', "Gestion d'appréciation ")
+        .addTag('Appreciations', "Gestion d'appréciations associés aux endroits ou services du campus ")
         .build();
 
       const documentFactory = () =>

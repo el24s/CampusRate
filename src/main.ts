@@ -20,8 +20,7 @@ async function bootstrap() {
 
     app.useGlobalFilters(new ProblemDetailsFilter());
 
-    // configureApp(app);
-    await app.listen(process.env.PORT ?? 3000);
     configureSwagger(app);
+    await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
