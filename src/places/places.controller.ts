@@ -28,10 +28,6 @@ export class PlacesController {
             },
         },
     })
-    // @ApiBadRequestResponse({
-    //     description: 'Données invalides.',
-    //     type: ProblemDetailsDto,
-    // })
     @Post()
     create(@Body() dto : CreatePlacesDto) {
         return this.placesService.create(dto);
