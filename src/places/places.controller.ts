@@ -5,7 +5,7 @@ import { Places } from './entities/places.entity';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { UpdatePlacesDto } from "./dto/update-places.dto";
 
-@ApiTags('Place')
+@ApiTags('Places')
 @Controller({path:'places', version: '1'})
 export class PlacesController {
 

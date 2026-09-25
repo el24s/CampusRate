@@ -10,3 +10,13 @@ export enum PlaceStatus {
     INACTIVE = 'INACTIVE',
     PENDING = 'PENDING'
 }
+
+export enum PlacesCategories {
+    STUDY_SPACE = 'STUDY_SPACE',
+    LIBRARY =  'LIBRARY',
+    FOOD_SERVICE = 'FOOD_SERVICE',
+    SPORTS = 'SPORTS',
+    STUDENT_SERVICE = 'STUDENT_SERVICE',
+    COMPUTER_LAB = 'COMPUTER_LAB',
+    OTHER = 'OTHER'
+}
