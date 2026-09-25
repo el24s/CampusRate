@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiNoContentResponse } from '@nestjs/swagger';
-import { Appreciations } from './entities/Appreciations.entity';
-import { AppreciationsService } from './Appreciations.service';
-import { CreateAppreciationsDto } from './dto/create-Appreciations.dto';
+import { Appreciations } from './entities/appreciations.entity';
+import { AppreciationsService } from './appreciations.service';
+import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 
 @ApiTags('Appreciations')
@@ -34,7 +34,7 @@ export class AppreciationsController {
         description: "Identifiant de l'endroit ou le service évalué",
         example: 'plc_01JABC123',
     })
-    create(@Param('placeId') placeId : string, @Body() dto: CreateAppreciationssDto) {
+    create(@Param('placeId') placeId : string, @Body() dto: CreateAppreciationsDto) {
         return this.appreciationsService.create(placeId, dto);
     }
 

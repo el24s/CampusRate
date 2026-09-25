@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
 import { PlacesService } from '../places/places.service';
 import { randomUUID } from 'crypto';
@@ -9,7 +9,6 @@ import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 export class AppreciationsService {
 
     constructor (
-        @Inject(forwardRef(() => PlacesService))
         private readonly placesService : PlacesService,
         private readonly dbService : DatabaseService
     ) {}
