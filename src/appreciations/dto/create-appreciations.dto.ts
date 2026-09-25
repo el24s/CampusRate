@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsNotEmpty, IsString, MaxLength, Min, Max } from "class-validator";
 
-export class CreateAppreciationssDto {
+export class CreateAppreciationsDto {
     @ApiProperty({
         description: "Le nom ou pseudonyme de la personne",
         example: "Samira",

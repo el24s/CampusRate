@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/commo
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiNoContentResponse } from '@nestjs/swagger';
 import { Appreciations } from './entities/Appreciations.entity';
 import { AppreciationsService } from './Appreciations.service';
-import { CreateAppreciationssDto } from './dto/create-Appreciations.dto';
+import { CreateAppreciationsDto } from './dto/create-Appreciations.dto';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 
 @ApiTags('Appreciations')
@@ -54,7 +54,7 @@ export class AppreciationsController {
         example: 'plc_01JABC123',
     })
     findAll(@Param('placeId') placeId : string) {
-        return this.appreciationsService.findAll(placeId);
+        return this.appreciationsService.findAllByPlace(placeId);
     }
 
     // consulter une Appreciations

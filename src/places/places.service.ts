@@ -1,20 +1,20 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
-import { AppreciationsService } from 'src/appreciations/Appreciations.service';
-import { DatabaseService } from 'src/commun/service/database.service';
+import { AppreciationsService } from '../appreciations/appreciations.service';
+import { DatabaseService } from '../commun/service/database.service';
 import { UpdatePlacesDto } from './dto/update-places.dto';
 
 @Injectable()
 export class PlacesService {
     constructor(
+        @Inject(forwardRef(() => AppreciationsService))
         private readonly appreciationsService : AppreciationsService,
-        private readonly dbService : DatabaseService
+        private readonly dbService : DatabaseService,
     ){}
 
 
     async create(dto : CreatePlacesDto) {
-        
         const data = await this.dbService.readDatabase();
 
         const newPlace = {

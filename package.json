@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@types/node": "^26.6.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   },
   "name": "campusrate",
@@ -8,13 +9,21 @@
   "description": "- npm install typescript --save-dev\r -",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^11.2.5",
+    "@nestjs/platform-express": "^11.2.6",
     "@nestjs/swagger": "^11.4.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
