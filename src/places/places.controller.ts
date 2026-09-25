@@ -4,6 +4,7 @@ import { PlacesService } from './places.service';
 import { Places } from './entities/places.entity';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { UpdatePlacesDto } from "./dto/update-places.dto";
+import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
 
 @ApiTags('Places')
 @Controller({path:'places', version: '1'})
@@ -43,8 +44,8 @@ export class PlacesController {
         type: [Places],
     })
     @Get()
-    findAll() {
-        return this.placesService.findAll();
+    findAll(@Query() query : GetPlacesQueryDto) {
+        return this.placesService.findAll(query);
     }
 
     // findById
@@ -101,20 +102,4 @@ export class PlacesController {
     remove(@Param('id') id : string) {
         return this.placesService.remove(id);
     }
-
-    // filter
-    // @ApiOperation({
-    //     summary: "Modifier des éléments d'un endroit ou d'un service",
-    //     description: "Modifie des éléments d'un endroit ou d'un service dans la collection courante"
-    // })
-    // @ApiOkResponse({
-    //     description: "Modification des éléments d'un endroit ou d'un service réussi",
-    //     type: Places,
-    // })
-    // @Get()
-    // @Query()
-    // filter() {
-    //     return this.placesService.filter();
-
-    // }
 }

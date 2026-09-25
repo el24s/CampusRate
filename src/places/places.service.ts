@@ -1,8 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { randomBytes }  from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { DatabaseService } from '../commun/service/database.service';
 import { UpdatePlacesDto } from './dto/update-places.dto';
+import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
 
 @Injectable()
 export class PlacesService {
@@ -31,16 +32,38 @@ export class PlacesService {
         return newPlace;
     }
 
-    async findAll() {
+    async findAll(query: GetPlacesQueryDto) {
         const data = await this.dbService.readDatabase();
+        let places = data.places;
 
-        return data.places;
+        if (query.category) {
+            places = places.filter(p => p.category === query.category);
+        }
+
+        const page = query.page || 1;
+        const limit = query.limit || 10;
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+
+        const paginatedPlaces = places.slice(startIndex, endIndex);
+        const totalItems = places.length;
+        const totalPages = Math.ceil(totalItems / limit) || 1;
+
+        return {
+            "data": paginatedPlaces, 
+            "pagination": { 
+                "page": Number(page), 
+                "limit": Number(limit), 
+                "totalItems": totalItems, 
+                "totalPages": totalPages, 
+            }
+        };
 
     }
 
     async findById(id: string) {
-        const places = await this.findAll();
-        const place = places.find(p => p.id === id); 
+        const data = await this.dbService.readDatabase();
+        const place = data.places.find(p => p.id === id); 
 
         if (!place) {
             throw new NotFoundException(`L'endroit ou le service avec l'id ${id} n'existe pas`);
