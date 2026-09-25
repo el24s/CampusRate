@@ -1,23 +1,42 @@
 {
-  "devDependencies": {
-    "@types/node": "^26.6.2",
-    "typescript": "^5.3.3"
-  },
   "name": "campusrate",
   "version": "1.0.0",
-  "description": "- npm install typescript --save-dev\r -",
+  "description": "API REST professionnelle - TP1 CampusRate",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^11.2.5",
+    "@nestjs/core": "^11.2.5",
+    "@nestjs/platform-express": "^11.2.6",
     "@nestjs/swagger": "^11.4.7",
+    "@nestjs/mapped-types": "^2.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
-    "nestjs": "^0.0.1"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
   }
 }

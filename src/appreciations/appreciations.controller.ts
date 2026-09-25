@@ -1,26 +1,26 @@
 import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiNoContentResponse } from '@nestjs/swagger';
-import { Appreciationss } from './entities/Appreciationss.entity';
-import { AppreciationssService } from './Appreciationss.service';
-import { CreateAppreciationssDto } from './dto/create-Appreciationss.dto';
-import { Places } from 'src/places/entities/places.entity';
+import { Appreciations } from './entities/appreciations.entity';
+import { AppreciationsService } from './appreciations.service';
+import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
+import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 
 @ApiTags('Appreciations')
-@Controller({path:'Appreciations', version: '1'})
+@Controller({path:'places/:placeId/appreciations', version: '1'})
 export class AppreciationsController {
     
     constructor(
-        private readonly AppreciationssService : AppreciationssService
+        private readonly appreciationsService : AppreciationsService
     ) {}
 
-    // publier Appreciationss lie endroit
+    // publier appreciations lie endroit
     @ApiOperation({
         summary: "Créer une appréciation lié à un endroit ou un service",
         description: "Crée une appréciation lié à un endroit ou un service dans la collection courante"
     })
     @ApiCreatedResponse({
         description: "Création d'une appréciation lié à un endroit ou un service avec succès",
-        type: Appreciationss,
+        type: Appreciations,
         headers: {
             Location: {
                 description: "URI de la nouvelle ressource",
@@ -29,32 +29,42 @@ export class AppreciationsController {
         },
     })
     @Post()
-    create(@Body() dto: CreateAppreciationssDto) {
-        return this.AppreciationssService.create(dto.authorName, dto.rating, dto.comment);
+    @ApiParam({
+        name: 'placeId',
+        description: "Identifiant de l'endroit ou le service évalué",
+        example: 'plc_01JABC123',
+    })
+    create(@Param('placeId') placeId : string, @Body() dto: CreateAppreciationsDto) {
+        return this.appreciationsService.create(placeId, dto);
     }
 
     // lister appreciaiton lie a endroit
     @ApiOperation({
-        summary: "Lister tous les appréciations liés à des endroits ou des services",
-        description: "Liste les appréciations liés aux endroits et aux services dans la collection courante"
+        summary: "Lister tous les appréciations liés à des endroits ou des services spécifiques",
+        description: "Liste les appréciations liés aux endroits et aux services spécifiques dans la collection courante"
     })
     @ApiOkResponse({
-        description: "Liste d'appréciation liés à des endroits ou des services avec succès",
-        type: [Places],
+        description: "Liste d'appréciation liés à des endroits ou des services spécifiques avec succès",
+        type: [Appreciations],
     })
     @Get()
-    findAll() {
-        return this.AppreciationssService.findAll();
+    @ApiParam({
+        name: 'placeId',
+        description: "Identifiant de l'endroit ou le service évalué",
+        example: 'plc_01JABC123',
+    })
+    findAllByPlace(@Param('placeId') placeId : string) {
+        return this.appreciationsService.findAllByPlace(placeId);
     }
 
-    // consulter une Appreciationss
+    // consulter une appreciations
     @ApiOperation({
         summary: "Lister tous les appréciations liés à des endroits ou des services",
         description: "Liste les appréciations liés aux endroits et aux services dans la collection courante"
     })
     @ApiOkResponse({
         description: "Liste d'appréciation liés à des endroits ou des services avec succès",
-        type: Places,
+        type: Appreciations,
     })
     @Get(':id')
     @ApiParam({
@@ -63,24 +73,24 @@ export class AppreciationsController {
         format: 'uuid',
     })
     findById(@Param('id') id : string) {
-        return this.AppreciationssService.findById(id);
+        return this.appreciationsService.findById(id);
     }
 
-    // modifier partiellement une Appreciationss
+    // modifier partiellement une appreciations
     @ApiOperation({
         summary: "Modifier une appréciation lié à un endroit ou un service",
         description: "Modifie l'appréciation lié à un endroit ou un service dans la collection courante"
     })
     @ApiOkResponse({
         description: "Modification d'une appréciation liés à un endroit ou un service avec succès",
-        type: Places,
+        type: Appreciations,
     })
     @Patch(':id')
-    update(@Param('id') id : string, @Body() updateAppreciationssDto : UpdateAppreciationssDto) {
-        return this.AppreciationssService.update(id, updateAppreciationssDto)
+    update(@Param('id') id : string, @Body() updateAppreciationsDto : UpdateAppreciationsDto) {
+        return this.appreciationsService.update(id, updateAppreciationsDto)
     }
 
-    // supprimer une Appreciationss
+    // supprimer une appreciations
     @ApiOperation({
         summary: "Supprimer une appréciation lié à un endroit ou un service",
         description: "Supprime l'appréciation lié à un endroit ou un service dans la collection courante"
@@ -95,6 +105,6 @@ export class AppreciationsController {
         format: 'uuid',
     }) 
     remove(@Param('id') id : string) {
-        return this.AppreciationssService.remove(id);
+        return this.appreciationsService.remove(id);
     }
 }

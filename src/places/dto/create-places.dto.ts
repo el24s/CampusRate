@@ -1,4 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsArray, IsEnum, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { PlaceStatus, PlacesCategories, PlacesServiceType } from "../places.enum";
 
 export class CreatePlacesDto {
     @ApiProperty({
@@ -6,35 +8,49 @@ export class CreatePlacesDto {
         example: "Bibliothèque principale",
         maxLength: 50
     })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     name: string;
 
     @ApiProperty({
         description: "La description d'un endroit",
         example: "Espace calme avec prises"
     })
+    @IsString()
+    @IsNotEmpty()
     description: string;
 
     @ApiProperty({
         description: "La catégorie d'un endroit",
-        example: "STUDY_SPACE"
+        example: PlacesCategories.STUDY_SPACE
     })
+    @IsString()
+    @IsNotEmpty()
     category: string;
 
     @ApiProperty({
         description: "L'addresse d'un endroit",
-        example: "Pavilllon A, local A-210"
+        example: "Pavillon A, local A-210"
     })
+    @IsString()
+    @IsNotEmpty()
     address: string;
 
     @ApiProperty({
         description: "Le type de service",
-        example: ["WIFI", "POWER_OUTLETS"]
+        enum: PlacesServiceType,
+        isArray: true,
+        example: [PlacesServiceType.WIFI, PlacesServiceType.POWER_OUTLETS],
     })
-    services!: string[];
+    @IsArray()
+    @IsEnum(PlacesServiceType, { each: true})
+    services!: PlacesServiceType[];
 
     @ApiProperty({
         description: "Le statut d'un endroit",
         example: "ACTIVE"
     })
-    status: string;
+    @IsEnum(PlaceStatus)
+    status: PlaceStatus;
 }

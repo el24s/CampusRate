@@ -1,0 +1,183 @@
+{
+  "places": [
+    {
+      "id": "plc_b5ff0ea5-29b0-4a03-9e78-1bb3148b0d94",
+      "name": "Bibliothèque",
+      "description": "Un endroit pour emprunter des livres",
+      "category": "STUDY_SPACE",
+      "address": "Pavillon E, local E-413",
+      "services": [
+        "WIFI",
+        "POWER_OUTLETS"
+      ],
+      "status": "ACTIVE",
+      "averageRating": null,
+      "reviewCount": 0,
+      "createdAt": "2026-09-25T06:15:50.341Z",
+      "updatedAt": "2026-09-25T06:24:35.319Z"
+    },
+    {
+      "id": "plc_64361b6f565d42ad2d",
+      "name": "Salon",
+      "description": "Un endroit pour se détendre",
+      "category": "STUDY_SPACE",
+      "address": "Pavillon A, local A-210",
+      "services": [
+        "WIFI"
+      ],
+      "status": "ACTIVE",
+      "averageRating": null,
+      "reviewCount": 0,
+      "createdAt": "2026-09-25T06:44:41.310Z",
+      "updatedAt": "2026-09-25T06:44:41.310Z"
+    },
+    {
+      "id": "plc_d4039fbc",
+      "name": "Lounge",
+      "description": "Un endroit pour se détendre",
+      "category": "STUDY_SPACE",
+      "address": "Pavillon D, local D-210",
+      "services": [
+        "WIFI"
+      ],
+      "status": "PENDING",
+      "averageRating": 4,
+      "reviewCount": 11,
+      "createdAt": "2026-09-25T06:45:25.073Z",
+      "updatedAt": "2026-09-25T07:10:06.521Z"
+    },
+    {
+      "id": "plc_12f2cc46",
+      "name": "Bibliothèque principale",
+      "description": "Espace calme avec prises",
+      "category": "STUDY_SPACE",
+      "address": "lol",
+      "services": [
+        "WIFI",
+        "POWER_OUTLETS"
+      ],
+      "status": "ACTIVE",
+      "averageRating": null,
+      "reviewCount": 0,
+      "createdAt": "2026-09-25T07:29:16.754Z",
+      "updatedAt": "2026-09-25T07:29:16.755Z"
+    },
+    {
+      "id": "plc_2e894992",
+      "name": "Bibliothèque",
+      "description": "Un endroit pour emprunter des livres",
+      "category": "STUDY_SPACE",
+      "address": "Pavillon A, local A-210",
+      "services": [
+        "WIFI",
+        "POWER_OUTLETS"
+      ],
+      "status": "ACTIVE",
+      "averageRating": null,
+      "reviewCount": 0,
+      "createdAt": "2026-09-25T08:18:02.854Z",
+      "updatedAt": "2026-09-25T08:18:02.854Z"
+    }
+  ],
+  "appreciations": [
+    {
+      "id": "rev_e273db8d",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T06:55:31.741Z",
+      "updatedAt": "2026-09-25T06:55:31.741Z"
+    },
+    {
+      "id": "rev_e2e9d6ef",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:11.316Z",
+      "updatedAt": "2026-09-25T07:05:11.316Z"
+    },
+    {
+      "id": "rev_e57b63ea",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:12.466Z",
+      "updatedAt": "2026-09-25T07:05:12.466Z"
+    },
+    {
+      "id": "rev_6832d177",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:13.136Z",
+      "updatedAt": "2026-09-25T07:05:13.136Z"
+    },
+    {
+      "id": "rev_94c2c26f",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:13.760Z",
+      "updatedAt": "2026-09-25T07:05:13.760Z"
+    },
+    {
+      "id": "rev_948b8ccd",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:14.311Z",
+      "updatedAt": "2026-09-25T07:05:14.311Z"
+    },
+    {
+      "id": "rev_9e9ed09f",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:14.570Z",
+      "updatedAt": "2026-09-25T07:05:14.570Z"
+    },
+    {
+      "id": "rev_fb931feb",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:14.705Z",
+      "updatedAt": "2026-09-25T07:05:14.705Z"
+    },
+    {
+      "id": "rev_60f58236",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:15.098Z",
+      "updatedAt": "2026-09-25T07:05:15.098Z"
+    },
+    {
+      "id": "rev_c6e6d643",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:15.480Z",
+      "updatedAt": "2026-09-25T07:05:15.480Z"
+    },
+    {
+      "id": "rev_2dd7c884",
+      "placeId": "plc_d4039fbc",
+      "authorName": "me",
+      "rating": 4,
+      "comment": "Chouette ambiance",
+      "createdAt": "2026-09-25T07:05:17.852Z",
+      "updatedAt": "2026-09-25T07:05:17.852Z"
+    }
+  ]
+}

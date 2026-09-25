@@ -1,15 +1,17 @@
-import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Patch, Delete, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags, ApiCreatedResponse, ApiParam, ApiOkResponse, ApiBadRequestResponse, ApiNoContentResponse } from'@nestjs/swagger';
 import { PlacesService } from './places.service';
 import { Places } from './entities/places.entity';
 import { CreatePlacesDto } from './dto/create-places.dto';
+import { UpdatePlacesDto } from "./dto/update-places.dto";
+import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
 
-@ApiTags('Place')
+@ApiTags('Places')
 @Controller({path:'places', version: '1'})
 export class PlacesController {
 
     constructor(
-        private readonly PlacesService : PlacesService
+        private readonly placesService : PlacesService
     ) {}
 
     // create
@@ -27,13 +29,9 @@ export class PlacesController {
             },
         },
     })
-    // @ApiBadRequestResponse({
-    //     description: 'Données invalides.',
-    //     type: ProblemDetailsDto,
-    // })
     @Post()
     create(@Body() dto : CreatePlacesDto) {
-        return this.PlacesService.create(dto.name, dto.description, dto.category, dto.address, dto.services, dto.status);
+        return this.placesService.create(dto);
     }
 
     // lister/findAll
@@ -46,8 +44,8 @@ export class PlacesController {
         type: [Places],
     })
     @Get()
-    findAll() {
-        return this.PlacesService.findAll();
+    findAll(@Query() query : GetPlacesQueryDto) {
+        return this.placesService.findAll(query);
     }
 
     // findById
@@ -66,7 +64,7 @@ export class PlacesController {
         format: 'uuid',
     })
     findById(@Param('id') id : string) {
-        return this.PlacesService.findById(id);
+        return this.placesService.findById(id);
     }
 
     // modifier partiellemnt
@@ -85,7 +83,7 @@ export class PlacesController {
         format: 'uuid',
     })
     update(@Param('id') id : string, @Body() updatePlacesDto: UpdatePlacesDto){
-        return this.PlacesService.update(id, updatePlacesDto);
+        return this.placesService.update(id, updatePlacesDto);
     }
     // supprimer endroit
     @ApiOperation({
@@ -102,6 +100,6 @@ export class PlacesController {
         format: 'uuid',
     })
     remove(@Param('id') id : string) {
-        return this.PlacesService.remove(id);
+        return this.placesService.remove(id);
     }
 }

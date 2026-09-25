@@ -1,18 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsInt, IsNotEmpty, IsString, MaxLength, Min, Max } from "class-validator";
 
 export class CreateAppreciationsDto {
-    // @ApiProperty({
-    //     description: "L'id d'un endroit ou service",
-    //     example: "plc_01JABC123",
-    //     maxLength: 30
-    // })
-    // placeId: string;
-
     @ApiProperty({
         description: "Le nom ou pseudonyme de la personne",
         example: "Samira",
         maxLength: 50
     })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     authorName: string;
     @ApiProperty({
         description: "La valeur de l'appréciation 1 à 5",
@@ -20,6 +17,9 @@ export class CreateAppreciationsDto {
         maximum: 5,
         minimum: 1
     })
+    @IsInt()
+    @Min(1)
+    @Max(5)
     rating: number;
     
     @ApiProperty({
@@ -27,5 +27,8 @@ export class CreateAppreciationsDto {
         example: "Calme et Wi-Fi stable",
         maxLength: 50
     })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     comment: string;
 }
