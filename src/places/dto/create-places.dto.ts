@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsEnum, IsNotEmpty, IsString, MaxLength } from "class-validator";
-import { PlaceStatus, PlacesServiceType } from "../places.enum";
+import { PlaceStatus, PlacesCategories, PlacesServiceType } from "../places.enum";
 
 export class CreatePlacesDto {
     @ApiProperty({
@@ -23,7 +23,7 @@ export class CreatePlacesDto {
 
     @ApiProperty({
         description: "La catégorie d'un endroit",
-        example: "STUDY_SPACE"
+        example: PlacesCategories.STUDY_SPACE
     })
     @IsString()
     @IsNotEmpty()

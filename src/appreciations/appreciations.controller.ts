@@ -13,7 +13,7 @@ export class AppreciationsController {
         private readonly appreciationsService : AppreciationsService
     ) {}
 
-    // publier Appreciations lie endroit
+    // publier appreciations lie endroit
     @ApiOperation({
         summary: "Créer une appréciation lié à un endroit ou un service",
         description: "Crée une appréciation lié à un endroit ou un service dans la collection courante"
@@ -53,11 +53,11 @@ export class AppreciationsController {
         description: "Identifiant de l'endroit ou le service évalué",
         example: 'plc_01JABC123',
     })
-    findAll(@Param('placeId') placeId : string) {
+    findAllByPlace(@Param('placeId') placeId : string) {
         return this.appreciationsService.findAllByPlace(placeId);
     }
 
-    // consulter une Appreciations
+    // consulter une appreciations
     @ApiOperation({
         summary: "Lister tous les appréciations liés à des endroits ou des services",
         description: "Liste les appréciations liés aux endroits et aux services dans la collection courante"
@@ -76,7 +76,7 @@ export class AppreciationsController {
         return this.appreciationsService.findById(id);
     }
 
-    // modifier partiellement une Appreciations
+    // modifier partiellement une appreciations
     @ApiOperation({
         summary: "Modifier une appréciation lié à un endroit ou un service",
         description: "Modifie l'appréciation lié à un endroit ou un service dans la collection courante"
@@ -90,7 +90,7 @@ export class AppreciationsController {
         return this.appreciationsService.update(id, updateAppreciationsDto)
     }
 
-    // supprimer une Appreciations
+    // supprimer une appreciations
     @ApiOperation({
         summary: "Supprimer une appréciation lié à un endroit ou un service",
         description: "Supprime l'appréciation lié à un endroit ou un service dans la collection courante"

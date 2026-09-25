@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
 import { PlacesService } from '../places/places.service';
-import { randomUUID } from 'crypto';
+import { randomBytes }  from 'crypto';
 import { DatabaseService } from '../commun/service/database.service';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
+
 
 @Injectable()
 export class AppreciationsService {
@@ -39,9 +40,9 @@ export class AppreciationsService {
     }
 
     async create(placeId : string, dto :CreateAppreciationsDto) {
+        const customId = randomBytes(4).toString('hex');
 
         const place = await this.placesService.findById(placeId);
-
         const data = await this.dbService.readDatabase();
 
         if(!place) {
@@ -49,7 +50,7 @@ export class AppreciationsService {
         } 
 
         const newAppreciation = {
-            id: `rev_${randomUUID()}`,
+            id: `rev_${customId}`,
             placeId: placeId,
             ...dto,
             createdAt: new Date().toISOString(),
