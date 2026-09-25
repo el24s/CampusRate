@@ -34,8 +34,23 @@ npm install class-validator class-transformer
 npm install @nestjs/swagger
 
 ```
----
+### Configuration (.env)
+Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
+- `PORT=4000`
+- `DATA_FILE_PATH=./src/data/campus-rate.json`
 
+### Commandes disponibles
+```bash
+# Lancer l'application en mode développement
+npm run start:dev
+
+# Vérifier le code (Lint)
+npm run lint
+
+# Compiler l'application (Build)
+npm run build
+
+```
 ## Architecture du Projet
 
 Le projet contient les éléments ci-dessous:
@@ -44,6 +59,23 @@ Le projet contient les éléments ci-dessous:
 * Appreciations - Gestion des avis et notes associés aux lieux
 * Commun - Services partagés et configuration du fichier JSON qui représente notre base de données temporaire
 
+--- 
+
+## Choix de conception (Contrat API)
+
+| Élément | Choix retenu | Justification / Règle REST |
+| :--- | :--- | :--- |
+| **Noms des ressources** | Pluriel en anglais (`places`, `appreciations`) | Standard REST pour représenter des collections de ressources. |
+| **Versionnement** | Dans le chemin (`/api/v1/...`) | Permet d'assurer la rétrocompatibilité des clients en cas d'évolution majeure. |
+| **Imbrication** | `/places/{placeId}/appreciations` | Exprime la relation forte d'appartenance d'une appréciation envers un endroit spécifique. |
+| **Codes HTTP principaux** | `201` (Création), `204` (Suppression), `404` (Non trouvé), `409` (Conflit) | Respect strict de la sémantique HTTP standard. |
+
+
+## Limites connues
+- La persistance s'appuie sur un fichier JSON local unique, ce qui n'est pas optimisé pour de la haute concurrence en production.
+- Pas de système d'authentification des utilisateurs (le nom d'auteur est simplement saisi sous forme de chaîne de caractères).
+
+---
 
 ## Documentation
 - Pour accéder à la documentation interactive SwaggerUI utiliser la commande `http://localhost:3000/docs`

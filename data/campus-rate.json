@@ -61,6 +61,22 @@
       "reviewCount": 0,
       "createdAt": "2026-09-25T07:29:16.754Z",
       "updatedAt": "2026-09-25T07:29:16.755Z"
+    },
+    {
+      "id": "plc_2e894992",
+      "name": "Bibliothèque",
+      "description": "Un endroit pour emprunter des livres",
+      "category": "STUDY_SPACE",
+      "address": "Pavillon A, local A-210",
+      "services": [
+        "WIFI",
+        "POWER_OUTLETS"
+      ],
+      "status": "ACTIVE",
+      "averageRating": null,
+      "reviewCount": 0,
+      "createdAt": "2026-09-25T08:18:02.854Z",
+      "updatedAt": "2026-09-25T08:18:02.854Z"
     }
   ],
   "appreciations": [

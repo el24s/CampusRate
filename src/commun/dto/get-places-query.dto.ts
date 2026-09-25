@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
-import { PlacesCategories } from "src/places/places.enum";
+import { PlacesCategories } from "../../places/places.enum";
 
 
 export class GetPlacesQueryDto {
