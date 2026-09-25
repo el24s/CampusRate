@@ -15,7 +15,7 @@ export class DatabaseService {
       await fs.access(this.filePath);
     } catch {
       // File doesn't exist, let's create it with default empty collections
-      const initialData = { places: [], reviews: [] };
+      const initialData = { places: [], appreciations: [] };
       
       // Ensure the directory exists first
       const dir = path.dirname(this.filePath);
@@ -29,7 +29,7 @@ export class DatabaseService {
    * Reads and parses data from the JSON file.
    * Handles invalid JSON (SyntaxError) as required by Section 8.
    */
-  async readDatabase(): Promise<{ places: any[]; reviews: any[] }> {
+  async readDatabase(): Promise<{ places: any[]; appreciations: any[] }> {
     await this.ensureFileExists();
 
     try {
@@ -49,7 +49,7 @@ export class DatabaseService {
   /**
    * Writes the updated data back to the JSON file asynchronously.
    */
-  async writeDatabase(data: { places: any[]; reviews: any[] }): Promise<void> {
+  async writeDatabase(data: { places: any[]; appreciations: any[] }): Promise<void> {
     await this.ensureFileExists();
     await fs.writeFile(this.filePath, JSON.stringify(data, null, 2), 'utf8');
   }

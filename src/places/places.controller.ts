@@ -3,6 +3,7 @@ import { ApiOperation, ApiTags, ApiCreatedResponse, ApiParam, ApiOkResponse, Api
 import { PlacesService } from './places.service';
 import { Places } from './entities/places.entity';
 import { CreatePlacesDto } from './dto/create-places.dto';
+import { UpdatePlacesDto } from "./dto/update-places.dto";
 
 @ApiTags('Place')
 @Controller({path:'places', version: '1'})
@@ -33,7 +34,7 @@ export class PlacesController {
     // })
     @Post()
     create(@Body() dto : CreatePlacesDto) {
-        return this.placesService.create(dto.name, dto.description, dto.category, dto.address, dto.services, dto.status);
+        return this.placesService.create(dto);
     }
 
     // lister/findAll
