@@ -1,17 +1,18 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import { PlacesCategories } from "../../places/places.enum";
 
 
 export class GetPlacesQueryDto {
     @ApiPropertyOptional({
         description: "Filtrer par catégorie exacte",
-        example: "STUDY_SPACE",
-        enum: ['STUDY_SPACE', 'LIBRARY', 'FOOD_SERVICE', 'SPORTS', 'STUDENT_SERVICE', 'COMPUTER_LAB', 'OTHER'],
+        example: PlacesCategories.STUDENT_SERVICE,
+        enum: PlacesCategories,
     })
     @IsOptional()
     @IsString()
-    @IsEnum(['STUDY_SPACE', 'LIBRARY', 'FOOD_SERVICE', 'SPORTS', 'STUDENT_SERVICE', 'COMPUTER_LAB', 'OTHER'], {
+    @IsEnum(PlacesCategories, {
         message: "La catégorie spécifiée n'est pas valide.",
     })
     category?: string;
