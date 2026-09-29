@@ -38,3 +38,5 @@ export class Places extends Document {
     @Prop({ default: () => new Date()})
     updatedAt: Date
 }
+
+export const PlacesSchema = SchemaFactory.createForClass(Places)
