@@ -23,9 +23,10 @@ export class Places {
 
    @ApiProperty({ 
         description: "La catégorie d'un endroit",
+        enum: PlacesCategories,
         example: PlacesCategories.STUDY_SPACE
     })
-    category: string;
+    category: PlacesCategories;
 
     @ApiProperty({ 
         description: "L'addresse d'un endroit",
@@ -43,6 +44,7 @@ export class Places {
 
     @ApiProperty({ 
         description: "Le statut d'un endroit",
+        enum: PlaceStatus,
         example: "ACTIVE"
     })
     status?: PlaceStatus;
@@ -75,7 +77,7 @@ export class Places {
     constructor(
     name: string,
     description: string,
-    category: string,
+    category: PlacesCategories,
     address: string,
     averageRating: number | null,
     reviewCount: number,
