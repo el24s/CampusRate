@@ -4,7 +4,7 @@ import { PlacesCategories, PlaceStatus } from '../places.enum';
 import { PlacesService } from '../places.service';
 
 @Schema({ timestamps: true })
-export class Places extends Document {
+export class Place extends Document {
     @Prop({ required: true, unique: true})
     id: string
 
@@ -19,7 +19,7 @@ export class Places extends Document {
 
     @Prop({ required: true })
     address: string
-
+k
     @Prop({ required: false })
     services?: PlacesService[]
 
@@ -39,4 +39,4 @@ export class Places extends Document {
     updatedAt: Date
 }
 
-export const PlacesSchema = SchemaFactory.createForClass(Places)
+export const PlacesSchema = SchemaFactory.createForClass(Place)
