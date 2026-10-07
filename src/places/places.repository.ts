@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Place } from "./entities/places.schema";
+import { Place } from "./schemas/places.schema";
 import { CreatePlacesDto } from "./dto/create-places.dto";
 
 
