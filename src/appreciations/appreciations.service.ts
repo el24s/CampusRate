@@ -83,7 +83,7 @@ export class AppreciationsService {
         const updateApppreciation = {
             ...appreciation,
             ...dto,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date()
         };
 
         await this.updatePlaceInfos(appreciation.placeId);
