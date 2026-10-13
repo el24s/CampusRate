@@ -1,21 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
-import { PlacesService } from '../places/places.service';
 import { randomBytes }  from 'crypto';
-import { DatabaseService } from '../commun/service/database.service';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
+import { AppreciationsRepository } from './appreciations.repository';
+import { PlacesRepository } from '../places/places.repository';
 
 
 @Injectable()
 export class AppreciationsService {
 
     constructor (
-        private readonly placesService : PlacesService,
-        private readonly dbService : DatabaseService
+        private readonly placesRepo : PlacesRepository,
+        private readonly appreciationsRepo : AppreciationsRepository,
     ) {}
 
-    private async updatePlaceInfos(placeId: string, data : any) {
-        const placeApp = data.appreciations.filter(p => p.placeId === placeId);
+    private async updatePlaceInfos(placeId: string) {
+
+        const placeApp = await this.findAllByPlace(placeId);
 
         const reviewCount = placeApp.length;
 
@@ -26,24 +27,17 @@ export class AppreciationsService {
             averageRating = Number((sum / reviewCount).toFixed(2));
         }
 
-        data.places = data.places.map(p => {
-            if (p.id === placeId) {
-                return {
-                    ...p,
-                    averageRating,
-                    reviewCount,
-                    updatedAt: new Date().toISOString()
-                };
-            }
-            return p;
+        await this.placesRepo.update(placeId, {
+            reviewCount,
+            averageRating,
+            updatedAt: new Date()
         });
     }
 
     async create(placeId : string, dto :CreateAppreciationsDto) {
         const customId = randomBytes(4).toString('hex');
 
-        const place = await this.placesService.findById(placeId);
-        const data = await this.dbService.readDatabase();
+        const place = await this.placesRepo.findById(placeId);
 
         if(!place) {
             throw new NotFoundException(`L'endroit ou le service avec l'id ${placeId} n'existe pas`);
@@ -57,37 +51,34 @@ export class AppreciationsService {
             updatedAt: new Date().toISOString(),
         };
 
-        data.appreciations.push(newAppreciation);
-        await this.updatePlaceInfos(placeId, data);
-        await this.dbService.writeDatabase(data);
+        await this.appreciationsRepo.create(newAppreciation);        
+        await this.updatePlaceInfos(placeId);
 
         return newAppreciation;
     }
 
 
     async findAllByPlace(placeId : string) {
-        await this.placesService.findById(placeId);
-        const data = await this.dbService.readDatabase();
-        const results = data.appreciations.filter(p => p.placeId === placeId);
+        await this.placesRepo.findById(placeId);
+
+        const data = await this.appreciationsRepo.findAll();
+        const results = data.filter(p => p.placeId === placeId);
 
         return results;
     }
 
     async findById(id : string) {
-        const data = await this.dbService.readDatabase();
-        const appreciation =data.appreciations.find(p => p.id === id);
+        const appreciation = await this.appreciationsRepo.findById(id);
 
         if (!appreciation) {
             throw new NotFoundException(`L'appréciation avec l'id ${id} n'existe pas`)
         }
 
         return appreciation;
-
     }
 
     async update(id: string, dto : UpdateAppreciationsDto) {
         const appreciation = await this.findById(id);
-        const data = await this.dbService.readDatabase();
 
         const updateApppreciation = {
             ...appreciation,
@@ -95,21 +86,16 @@ export class AppreciationsService {
             updatedAt: new Date().toISOString()
         };
 
-        data.appreciations = data.appreciations.map(p => p.id === id ? updateApppreciation : p);
-        await this.updatePlaceInfos(appreciation.placeId, data);
-        await this.dbService.writeDatabase(data);
+        await this.updatePlaceInfos(appreciation.placeId);
 
         return updateApppreciation;
-
     }
 
     async remove(id : string) {
         const appreciation = await this.findById(id);
-        const data = await this.dbService.readDatabase();
     
-        data.appreciations = data.appreciations.filter(p => p.id !== id);
-        await this.updatePlaceInfos(appreciation.placeId, data);
-        await this.dbService.writeDatabase(data);
+        await this.appreciationsRepo.delete(id);
+        await this.updatePlaceInfos(appreciation.placeId);
 
         return;
     }

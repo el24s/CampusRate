@@ -1,14 +1,16 @@
-import { ConflictException, Injectable, NotFoundException, Query } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomBytes }  from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { PlacesRepository } from './places.repository';
 import { UpdatePlacesDto } from './dto/update-places.dto';
 import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
+import { AppreciationsRepository } from 'src/appreciations/appreciations.repository';
 
 @Injectable()
 export class PlacesService {
     constructor(
         private readonly placeRepo: PlacesRepository,
+        private readonly appreciationRepo: AppreciationsRepository,
     ){}
 
 
@@ -29,7 +31,6 @@ export class PlacesService {
         return this.placeRepo.create(newPlace);
     }
 
-    // TODO : revisit
     async findAll(query: GetPlacesQueryDto) {
         let places = await this.placeRepo.findAll();
 
@@ -58,38 +59,35 @@ export class PlacesService {
 
     }
 
-    // async findById(id: string) {
-    //     const data = await this.dbService.readDatabase();
-    //     const place = data.places.find(p => p.id === id); 
+    async findById(id: string) {
+        const place = await this.placeRepo.findById(id);
 
-    //     if (!place) {
-    //         throw new NotFoundException(`L'endroit ou le service avec l'id ${id} n'existe pas`);
-    //     }
+        if (!place) {
+            throw new NotFoundException(`L'endroit ou le service avec l'id ${id} n'existe pas`);
+        }
 
-    //     return place;
-    // }
+        return place;
+    }
 
-    // async update(id: string, dto : UpdatePlacesDto) {
-    //     const place = await this.findById(id);
+    async update(id: string, dto : UpdatePlacesDto) {
+        const place = await this.placeRepo.findById(id);
 
-    //     const data = await this.dbService.readDatabase();
+        const updatePlace = {
+            ...place,
+            ...dto,
+            updatedAt: new Date().toISOString()
+        };
 
-    //     const updatePlace = {
-    //         ...place,
-    //         ...dto,
-    //         updatedAt: new Date().toISOString()
-    //     };
+        await this.placeRepo.update(id, updatePlace);
 
-    //     data.places = data.places.map(p => p.id === id ? updatePlace : p);
-
-    //     await this.dbService.writeDatabase(data);
-
-    //     return updatePlace;
-    // }
+        return updatePlace;
+    }
 
     // async remove(id : string) {
-    //     const data = await this.dbService.readDatabase();
-    //     const hasAppreciations = data.appreciations.some(p => p.placeId === id);
+    //     const place = await this.placeRepo.findById(id);
+    //     // const hasAppreciations = await this.place
+
+    //     const hasAppreciations = await this.placeRepo.findById(id) == await this.appreciationRepo.findPlaceId(id);
 
     //     if (hasAppreciations) {
     //         throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
