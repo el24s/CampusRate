@@ -47,8 +47,8 @@ export class AppreciationsService {
             id: `rev_${customId}`,
             placeId: placeId,
             ...dto,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
         };
 
         await this.appreciationsRepo.create(newAppreciation);        

@@ -23,7 +23,7 @@ export class AppreciationsRepository {
     }
 
     async findAllbyPlace(placeId: string) {
-        return this.appreciationModel.findById(placeId);
+        return this.appreciationModel.find({placeId: placeId}).exec();
     }
 
     async create(dto: CreateAppreciationsDto): Promise<Appreciation> {
