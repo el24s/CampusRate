@@ -3,6 +3,8 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Place } from "./schemas/places.schema";
 import { CreatePlacesDto } from "./dto/create-places.dto";
+import { UpdatePlacesDto } from "./dto/update-places.dto";
+import { SystemUpdatePlacesDto } from "./dto/system-update-places.dto";
 
 
 @Injectable()
@@ -23,7 +25,7 @@ export class PlacesRepository {
         return this.placeModel.create(dto);
     }
 
-    async update(id: string, dto: CreatePlacesDto): Promise<Place | null> {
+    async update(id: string, dto: UpdatePlacesDto | SystemUpdatePlacesDto): Promise<Place | null> {
         return this.placeModel.findByIdAndUpdate(id, dto, { new: true }).exec();
     }
     

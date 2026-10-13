@@ -22,6 +22,10 @@ export class AppreciationsRepository {
         return this.appreciationModel.findById(id).exec();
     }
 
+    async findAllbyPlace(placeId: string) {
+        return this.appreciationModel.findById(placeId);
+    }
+
     async create(dto: CreateAppreciationsDto): Promise<Appreciation> {
         return this.appreciationModel.create(dto);
     }
