@@ -22,8 +22,8 @@ export class PlacesService {
             ...dto,
             averageRating: null,
             reviewCount: 0,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            createdAt: new Date(),
+            updatedAt: new Date()
 
         };
         
@@ -86,7 +86,7 @@ export class PlacesService {
         await this.placeRepo.findById(id);
         const hasAppreciations = await this.appreciationRepo.findAllbyPlace(id);
 
-        if (hasAppreciations) {
+        if (hasAppreciations.length > 0) {
             throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
         }
         
