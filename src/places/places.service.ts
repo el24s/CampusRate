@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomBytes }  from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { PlacesRepository } from './places.repository';
@@ -26,7 +26,6 @@ export class PlacesService {
             updatedAt: new Date().toISOString()
 
         };
-
         
         return this.placeRepo.create(newPlace);
     }
@@ -83,19 +82,16 @@ export class PlacesService {
         return updatePlace;
     }
 
-    // async remove(id : string) {
-    //     const place = await this.placeRepo.findById(id);
-    //     // const hasAppreciations = await this.place
+    async remove(id : string) {
+        await this.placeRepo.findById(id);
+        const hasAppreciations = await this.appreciationRepo.findAllbyPlace(id);
 
-    //     const hasAppreciations = await this.placeRepo.findById(id) == await this.appreciationRepo.findPlaceId(id);
-
-    //     if (hasAppreciations) {
-    //         throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
-    //     }
+        if (hasAppreciations) {
+            throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
+        }
         
-    //     data.places = data.places.filter(p => p.id !== id);
-    //     await this.dbService.writeDatabase(data);
+        await this.placeRepo.delete(id);
 
-    //     return;
-    // }
+        return;
+    }
 }
