@@ -38,7 +38,7 @@ export class AppreciationsController {
         return this.appreciationsService.create(placeId, dto);
     }
 
-    // lister appreciaiton lie a endroit
+    // lister appreciation lie à un endroit
     @ApiOperation({
         summary: "Lister tous les appréciations liés à des endroits ou des services spécifiques",
         description: "Liste les appréciations liés aux endroits et aux services spécifiques dans la collection courante"
@@ -57,7 +57,7 @@ export class AppreciationsController {
         return this.appreciationsService.findAllByPlace(placeId);
     }
 
-    // consulter une appreciations
+    // consulter une appreciation
     @ApiOperation({
         summary: "Lister tous les appréciations liés à des endroits ou des services",
         description: "Liste les appréciations liés aux endroits et aux services dans la collection courante"
@@ -76,7 +76,7 @@ export class AppreciationsController {
         return this.appreciationsService.findById(id);
     }
 
-    // modifier partiellement une appreciations
+    // modifier partiellement une appreciation
     @ApiOperation({
         summary: "Modifier une appréciation lié à un endroit ou un service",
         description: "Modifie l'appréciation lié à un endroit ou un service dans la collection courante"
@@ -90,7 +90,7 @@ export class AppreciationsController {
         return this.appreciationsService.update(id, updateAppreciationsDto)
     }
 
-    // supprimer une appreciations
+    // supprimer une appreciation
     @ApiOperation({
         summary: "Supprimer une appréciation lié à un endroit ou un service",
         description: "Supprime l'appréciation lié à un endroit ou un service dans la collection courante"
