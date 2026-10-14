@@ -27,7 +27,8 @@ export class AppreciationsRepository {
     }
 
     async create(dto: CreateAppreciationsDto): Promise<Appreciation> {
-        return this.appreciationModel.create(dto);
+        const newAppreciation = new this.appreciationModel(dto);
+        return newAppreciation.save();
     }
 
     async update(id: string, dto: UpdateAppreciationsDto): Promise<Appreciation | null> {

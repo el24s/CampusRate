@@ -22,7 +22,8 @@ export class PlacesRepository {
     }
 
     async create(dto: CreatePlacesDto):Promise<Place> {
-        return this.placeModel.create(dto);
+        const newPlace = new this.placeModel(dto);
+        return newPlace.save();
     }
 
     async update(id: string, dto: UpdatePlacesDto | SystemUpdatePlacesDto): Promise<Place | null> {

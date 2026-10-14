@@ -1,16 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { PlacesCategories, PlaceStatus, PlacesServiceType } from '../places.enum';
-import { IsDate, IsEmpty, IsEnum, IsISO8601, IsMongoId, IsNotEmpty, IsNumber, IsString, Max } from 'class-validator';
+import { IsDate, IsEmpty, IsEnum, IsISO8601, IsNotEmpty, IsNumber, IsString, Max } from 'class-validator';
 
 @Schema({ timestamps: true })
 export class Place extends Document {
-    @IsString()
-    @IsNotEmpty()
-    @IsMongoId()
-    @Prop({ required: true, unique: true})
-    id: string
-
     @IsString()
     @IsNotEmpty()
     @Max(30)
