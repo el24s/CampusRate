@@ -80,6 +80,9 @@ Le projet contient les éléments ci-dessous:
 - CORS 
 - Helmet -> npm i helmet
 Pour vérifier que la configuration de ses deux là fonctionnent -> ``` curl.exe -i -H "ORIGIN: http://site-malveillant.com" http://localhost:3000/SUITE ``` avec SUITE qui représente votre route complète. Cela va donner une erreur.
+
+## Changement par rapport au TP2
+- plus d'id hardcoder -> mongoDB gère cela...
 ---
 
 ## Documentation
