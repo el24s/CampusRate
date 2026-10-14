@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEmpty, IsISO8601, IsNotEmpty, IsNumber } from "class-validator";
+import { IsDate, IsISO8601, IsNotEmpty, IsNumber } from "class-validator";
 
 export class SystemUpdatePlacesDto {
     @ApiProperty({
@@ -8,8 +8,8 @@ export class SystemUpdatePlacesDto {
         default: 0
     })
     @IsNumber()
-    @IsEmpty()
-    reviewCount?: number;
+    @IsNotEmpty()
+    reviewCount: number;
 
     @ApiProperty({
         description: "La moyenne des notes d'appréciations",
@@ -17,8 +17,8 @@ export class SystemUpdatePlacesDto {
         default: 0
     })
     @IsNumber()
-    @IsEmpty()
-    averageRating?: number;
+    @IsNotEmpty()
+    averageRating: number;
 
     @ApiProperty({ 
         description: 'La date de la dernière modification',
