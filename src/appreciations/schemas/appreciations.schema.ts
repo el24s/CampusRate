@@ -6,12 +6,6 @@ import { Document } from "mongoose";
 export class Appreciation extends Document {
     @IsString()
     @IsNotEmpty()
-    @IsMongoId()
-    @Prop({ required: true, unique: true})
-    id: string
-
-    @IsString()
-    @IsNotEmpty()
     @Prop({ required: true, unique: true })
     placeId: string
 
