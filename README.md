@@ -75,6 +75,11 @@ Le projet contient les éléments ci-dessous:
 - La persistance s'appuie sur un fichier JSON local unique, ce qui n'est pas optimisé pour de la haute concurrence en production.
 - Pas de système d'authentification des utilisateurs (le nom d'auteur est simplement saisi sous forme de chaîne de caractères).
 
+
+## Sécurité de l'API
+- CORS 
+- Helmet -> npm i helmet
+Pour vérifier que la configuration de ses deux là fonctionnent -> ``` curl.exe -i -H "ORIGIN: http://site-malveillant.com" http://localhost:3000/SUITE ``` avec SUITE qui représente votre route complète. Cela va donner une erreur.
 ---
 
 ## Documentation
