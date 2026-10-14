@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { configureSwagger } from './configure-swagger';
 import { ProblemDetailsFilter } from './commun/filters/problem-details.filter';
+import helmet from 'helmet';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -25,6 +26,8 @@ async function bootstrap() {
       methods: 'GET,POST,PATCH,DELETE',
       allowedHeaders: ['Content-Type'],
     });
+
+    app.use(helmet());
 
     configureSwagger(app);
     await app.listen(process.env.PORT ?? 3000);
