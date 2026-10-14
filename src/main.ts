@@ -20,7 +20,6 @@ async function bootstrap() {
 
     app.useGlobalFilters(new ProblemDetailsFilter());
 
-    // app.useValidationPipe
     configureSwagger(app);
     await app.listen(process.env.PORT ?? 3000);
 }
