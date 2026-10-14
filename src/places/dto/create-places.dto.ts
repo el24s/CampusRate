@@ -27,7 +27,8 @@ export class CreatePlacesDto {
     })
     @IsString()
     @IsNotEmpty()
-    category: string;
+    @IsEnum(PlacesCategories)
+    category: PlacesCategories;
 
     @ApiProperty({
         description: "L'addresse d'un endroit",
