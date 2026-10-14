@@ -4,7 +4,7 @@ import { CreatePlacesDto } from './dto/create-places.dto';
 import { PlacesRepository } from './places.repository';
 import { UpdatePlacesDto } from './dto/update-places.dto';
 import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
-import { AppreciationsRepository } from 'src/appreciations/appreciations.repository';
+import { AppreciationsRepository } from '../appreciations/appreciations.repository';
 
 @Injectable()
 export class PlacesService {
