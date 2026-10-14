@@ -1,9 +1,9 @@
 import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiNoContentResponse } from '@nestjs/swagger';
-import { Appreciations } from './entities/appreciations.entity';
 import { AppreciationsService } from './appreciations.service';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
+import { Appreciation } from './schemas/appreciations.schema';
 
 @ApiTags('Appreciations')
 @Controller({path:'places/:placeId/appreciations', version: '1'})
@@ -20,7 +20,7 @@ export class AppreciationsController {
     })
     @ApiCreatedResponse({
         description: "Création d'une appréciation lié à un endroit ou un service avec succès",
-        type: Appreciations,
+        type: Appreciation,
         headers: {
             Location: {
                 description: "URI de la nouvelle ressource",
@@ -45,7 +45,7 @@ export class AppreciationsController {
     })
     @ApiOkResponse({
         description: "Liste d'appréciation liés à des endroits ou des services spécifiques avec succès",
-        type: [Appreciations],
+        type: [Appreciation],
     })
     @Get()
     @ApiParam({
@@ -64,7 +64,7 @@ export class AppreciationsController {
     })
     @ApiOkResponse({
         description: "Liste d'appréciation liés à des endroits ou des services avec succès",
-        type: Appreciations,
+        type: Appreciation,
     })
     @Get(':id')
     @ApiParam({
@@ -83,7 +83,7 @@ export class AppreciationsController {
     })
     @ApiOkResponse({
         description: "Modification d'une appréciation liés à un endroit ou un service avec succès",
-        type: Appreciations,
+        type: Appreciation,
     })
     @Patch(':id')
     update(@Param('id') id : string, @Body() updateAppreciationsDto : UpdateAppreciationsDto) {
