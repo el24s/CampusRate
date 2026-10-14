@@ -32,6 +32,9 @@ npm install typescript --save-dev
 npm install @nestjs/common
 npm install class-validator class-transformer
 npm install @nestjs/swagger
+npm i helmet
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
+npm install --save-dev @types/passport-jwt @types/bcryptjs
 
 ```
 ### Configuration (.env)
@@ -78,7 +81,7 @@ Le projet contient les éléments ci-dessous:
 
 ## Sécurité de l'API
 - CORS 
-- Helmet -> npm i helmet
+- Helmet
 Pour vérifier que la configuration de ses deux là fonctionnent -> ``` curl.exe -i -H "ORIGIN: http://site-malveillant.com" http://localhost:3000/SUITE ``` avec SUITE qui représente votre route complète. Cela va donner une erreur.
 
 ## Changement par rapport au TP2
