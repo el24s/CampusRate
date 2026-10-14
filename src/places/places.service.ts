@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { randomBytes }  from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { PlacesRepository } from './places.repository';
 import { UpdatePlacesDto } from './dto/update-places.dto';
@@ -14,8 +15,10 @@ export class PlacesService {
 
 
     async create(dto : CreatePlacesDto) {
+        const customId = randomBytes(4).toString('hex');
 
         const newPlace = {
+            id: `plc_${customId}`,
             ...dto,
             averageRating: null,
             reviewCount: 0,

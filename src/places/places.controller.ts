@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Get, Patch, Delete, Param, Query } from '@nestjs/common';
-import { ApiOperation, ApiTags, ApiCreatedResponse, ApiParam, ApiOkResponse, ApiBadRequestResponse, ApiNoContentResponse } from'@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiCreatedResponse, ApiParam, ApiOkResponse, ApiNoContentResponse } from'@nestjs/swagger';
 import { PlacesService } from './places.service';
-import { Places } from './entities/places.entity';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { UpdatePlacesDto } from "./dto/update-places.dto";
 import { GetPlacesQueryDto } from '../commun/dto/get-places-query.dto';
+import { Place } from './schemas/places.schema';
 
 @ApiTags('Places')
 @Controller({path:'places', version: '1'})
@@ -21,7 +21,7 @@ export class PlacesController {
     })
     @ApiCreatedResponse({
         description: "Création d'un endroit ou d'un service avec succès",
-        type: Places,
+        type: Place,
         headers: {
             Location: {
                 description: "URI de la nouvelle ressource",
@@ -41,7 +41,7 @@ export class PlacesController {
     })
     @ApiOkResponse({
         description: "Liste des endroits et des services avec succès",
-        type: [Places],
+        type: [Place],
     })
     @Get()
     findAll(@Query() query : GetPlacesQueryDto) {
@@ -55,7 +55,7 @@ export class PlacesController {
     })
     @ApiOkResponse({
         description: "Recherche d'un endroit ou d'un service avec succès",
-        type: Places,
+        type: Place,
     })
     @Get(':id')
     @ApiParam({
@@ -74,7 +74,7 @@ export class PlacesController {
     })
     @ApiOkResponse({
         description: "Modification des éléments d'un endroit ou d'un service réussi",
-        type: Places,
+        type: Place,
     })
     @Patch(':id')
     @ApiParam({
