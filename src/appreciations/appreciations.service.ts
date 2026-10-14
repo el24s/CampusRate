@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
-import { randomBytes }  from 'crypto';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 import { AppreciationsRepository } from './appreciations.repository';
 import { PlacesRepository } from '../places/places.repository';
@@ -35,7 +34,6 @@ export class AppreciationsService {
     }
 
     async create(placeId : string, dto :CreateAppreciationsDto) {
-        const customId = randomBytes(4).toString('hex');
 
         const place = await this.placesRepo.findById(placeId);
 
@@ -44,7 +42,6 @@ export class AppreciationsService {
         } 
 
         const newAppreciation = {
-            id: `rev_${customId}`,
             placeId: placeId,
             ...dto,
             createdAt: new Date(),

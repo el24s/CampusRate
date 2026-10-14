@@ -7,6 +7,7 @@ import { IsDate, IsEmpty, IsEnum, IsISO8601, IsMongoId, IsNotEmpty, IsNumber, Is
 export class Place extends Document {
     @IsString()
     @IsNotEmpty()
+    @IsMongoId()
     @Prop({ required: true, unique: true})
     id: string
 
