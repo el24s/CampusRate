@@ -60,9 +60,8 @@ export class AppreciationsService {
 
     async findAllByPlace(placeId : string) {
         await this.placesRepo.findById(placeId);
-
-        const data = await this.appreciationsRepo.findAll();
-        const results = data.filter(p => p.placeId === placeId);
+        
+        const results = await this.appreciationsRepo.findAllbyPlace(placeId);
 
         return results;
     }
