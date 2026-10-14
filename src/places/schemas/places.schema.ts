@@ -25,7 +25,7 @@ export class Place extends Document {
 
     @IsEnum(PlacesCategories)
     @IsNotEmpty()
-    @Prop({ required: true })
+    @Prop({ required: true, type: String, enum: ['STUDY_SPACE','LIBRARY','FOOD_SERVICE','SPORTS','STUDENT_SERVICE','COMPUTER_LAB','OTHER']})
     category: PlacesCategories
 
     @IsString()
@@ -36,12 +36,12 @@ export class Place extends Document {
 
     @IsEnum(PlacesServiceType)
     @IsEmpty()
-    @Prop({ required: false })
+    @Prop({ required: false, type: String, enum: ['WIFI', 'POWER_OUTLETS', 'PRINTER', 'CAFE'] })
     services?: PlacesServiceType[]
 
     @IsEnum(PlaceStatus)
     @IsEmpty()
-    @Prop({ required: false })
+    @Prop({ required: false, type: String, enum: ['ACTIVE','INACTIVE','PENDING'] })
     status?: PlaceStatus
 
     @IsNumber()
