@@ -10,50 +10,48 @@ import * as http from 'http'
 import { Logger } from 'winston';
 
 async function bootstrap() {
-    const httpsOptions = {
-      key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
-      cert: fs.readFileSync(path.join(__dirname, './certs/server.cert')),
-    };
+  const httpsOptions = {
+    key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
+    cert: fs.readFileSync(path.join(__dirname, './certs/server.cert')),
+  };
 
-    const app = await NestFactory.create(AppModule, { httpsOptions });
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
-    app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api/v1');
 
-    app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      stopAtFirstError: false,
-    }),
-    );
+  app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+    stopAtFirstError: false,
+  }),
+  );
 
-    app.useGlobalFilters(new ProblemDetailsFilter());
+  app.useGlobalFilters(new ProblemDetailsFilter());
 
-    app.enableCors({
-      origin: ['https://localhost:3000'],
-      methods: 'GET,POST,PATCH,DELETE',
-      allowedHeaders: ['Content-Type'],
-    });
+  app.enableCors({
+    origin: ['https://localhost:3000'],
+    methods: 'GET,POST,PATCH,DELETE',
+    allowedHeaders: ['Content-Type'],
+  });
 
-    app.use(helmet());
+  app.use(helmet());
 
-    const HTTPS_PORT = Number(process.env.PORT ?? 3000);
-    const HTTP_PORT = Number(process.env.HTTP_PORT ?? 3080);
-
-    await app.listen(HTTPS_PORT);
-    // const redirectLogger = new Logger('HttpRedirect');
-    http
-      .createServer((req, res) => {
-        const host = (req.headers.host ?? 'localhost').replace(/:\d+$/, '');
-        res.writeHead(308, {
-          Location: `https://${host}:${HTTPS_PORT}${req.url}`,
-        });
-        res.end();
-      })
-      .listen(HTTP_PORT, () => {
-      // redirectLogger.log(`Redirection HTTP: ${HTTP_PORT} -> HTTPS: ${HTTPS_PORT}`);
-      })
-    configureSwagger(app);
+  const HTTPS_PORT = Number(process.env.PORT ?? 3000);
+  const HTTP_PORT = Number(process.env.HTTP_PORT ?? 3080);
+  
+  configureSwagger(app);
+  await app.listen(HTTPS_PORT);
+  http
+    .createServer((req, res) => {
+      const host = (req.headers.host ?? 'localhost').replace(/:\d+$/, '');
+      res.writeHead(308, {
+        Location: `https://${host}:${HTTPS_PORT}${req.url}`,
+      });
+      res.end();
+    })
+    .listen(HTTP_PORT, () => {
+    })
 }
 bootstrap();

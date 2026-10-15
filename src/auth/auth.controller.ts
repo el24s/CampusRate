@@ -4,13 +4,13 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
-@ApiTags('auth')
+@ApiTags('Authentification')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({
-    summary: 'Conexion',
+    summary: 'Connexion',
     description: 'Connexion avec tokens pour accéder à certaines routes'
   })
   @ApiResponse({
