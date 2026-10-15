@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import Joi from 'joi';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
         PORT: Joi.number().default(3000),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
 
@@ -34,7 +36,8 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     ]),
 
     PlacesModule,
-    AppreciationsModule
+    AppreciationsModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
