@@ -40,7 +40,8 @@ async function bootstrap() {
 
     const HTTPS_PORT = Number(process.env.PORT ?? 3000);
     const HTTP_PORT = Number(process.env.HTTP_PORT ?? 3080);
-
+    
+    configureSwagger(app);
     await app.listen(HTTPS_PORT);
     // const redirectLogger = new Logger('HttpRedirect');
     http
@@ -54,6 +55,6 @@ async function bootstrap() {
       .listen(HTTP_PORT, () => {
       // redirectLogger.log(`Redirection HTTP: ${HTTP_PORT} -> HTTPS: ${HTTPS_PORT}`);
       })
-    configureSwagger(app);
+    
 }
 bootstrap();
