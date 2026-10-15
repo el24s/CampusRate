@@ -35,6 +35,8 @@ npm install @nestjs/swagger
 npm i helmet
 npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
 npm install --save-dev @types/passport-jwt @types/bcryptjs
+npm install @nestjs/throttler
+npm install winston
 
 ```
 ### Configuration (.env)
