@@ -4,6 +4,7 @@ import { AppreciationsModule } from './appreciations/appreciations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import Joi from 'joi';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -23,6 +24,13 @@ import Joi from 'joi';
       }),
       
     }),
+
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60_00,
+        limit: 100,
+      },
+    ]),
 
     PlacesModule,
     AppreciationsModule
