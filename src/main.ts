@@ -29,7 +29,7 @@ async function bootstrap() {
     app.useGlobalFilters(new ProblemDetailsFilter());
 
     app.enableCors({
-      origin: ['http//localhost:3000'],
+      origin: ['http://localhost:3000'],
       methods: 'GET,POST,PATCH,DELETE',
       allowedHeaders: ['Content-Type'],
     });
