@@ -4,7 +4,8 @@ import { AppreciationsModule } from './appreciations/appreciations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import Joi from 'joi';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 
@@ -40,7 +41,11 @@ import { AuthModule } from './auth/auth.module';
     AuthModule
   ],
   controllers: [],
-  providers: [],
+  providers: [
+  {
+    provide: APP_GUARD, useClass: ThrottlerGuard
+  },
+],
 })
 
 export class AppModule implements NestModule{
