@@ -86,6 +86,12 @@ Pour vérifier que la configuration de ses deux là fonctionnent -> ``` curl.exe
 
 ## Changement par rapport au TP2
 - plus d'id hardcoder -> mongoDB gère cela...
+
+## Tokens JWT
+
+## Certificat local (HTTPS)
+- Générer le certifical et la clé : ``` openssl req -nodes -new -x509 -keyout server.key -out server.cert -days 365 ```
+- ATTENTION EXCLURE SES DEUX FICHIERS DANS .gitignore!
 ---
 
 ## Documentation
