@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
-import { randomBytes }  from 'crypto';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 import { AppreciationsRepository } from './appreciations.repository';
 import { PlacesRepository } from '../places/places.repository';
+import { Role } from '../auth/enum/role.enum';
 
 
 @Injectable()
@@ -34,8 +34,7 @@ export class AppreciationsService {
         });
     }
 
-    async create(placeId : string, dto :CreateAppreciationsDto) {
-        const customId = randomBytes(4).toString('hex');
+    async create(placeId: string, dto: CreateAppreciationsDto, userId: number) {
 
         const place = await this.placesRepo.findById(placeId);
 
@@ -44,9 +43,9 @@ export class AppreciationsService {
         } 
 
         const newAppreciation = {
-            id: `rev_${customId}`,
             placeId: placeId,
             ...dto,
+            userId,
             createdAt: new Date(),
             updatedAt: new Date(),
         };
@@ -76,26 +75,31 @@ export class AppreciationsService {
         return appreciation;
     }
 
-    async update(id: string, dto : UpdateAppreciationsDto) {
+    async update(id: string, dto : UpdateAppreciationsDto, user: { userId: number; role: Role}) {
         const appreciation = await this.findById(id);
+        this.verifierProprietaire(appreciation, user);
 
-        const updateApppreciation = {
-            ...appreciation,
-            ...dto,
-            updatedAt: new Date()
-        };
-
+        const updateApppreciation = await this.appreciationsRepo.update(id, { ...dto} );
         await this.updatePlaceInfos(appreciation.placeId);
-
         return updateApppreciation;
     }
 
-    async remove(id : string) {
+    async remove(id : string, user: { userId: number; role: Role}) {
         const appreciation = await this.findById(id);
-    
+        this.verifierProprietaire(appreciation, user);
+        
         await this.appreciationsRepo.delete(id);
         await this.updatePlaceInfos(appreciation.placeId);
 
         return;
+    }
+
+    private verifierProprietaire(appreciation: { userId: number }, user: { userId: number; role: Role }) {
+        const estProprietaire = appreciation.userId === user.userId;
+        const estAdmin = user.role === Role.ADMIN;
+
+        if(!estProprietaire && !estAdmin) {
+            throw new ForbiddenException('Ce n\'est pas votre appréciation');
+        }
     }
 }

@@ -1,5 +1,4 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { randomBytes }  from 'crypto';
 import { CreatePlacesDto } from './dto/create-places.dto';
 import { PlacesRepository } from './places.repository';
 import { UpdatePlacesDto } from './dto/update-places.dto';
@@ -15,10 +14,8 @@ export class PlacesService {
 
 
     async create(dto : CreatePlacesDto) {
-        const customId = randomBytes(4).toString('hex');
 
         const newPlace = {
-            id: `plc_${customId}`,
             ...dto,
             averageRating: null,
             reviewCount: 0,
@@ -47,12 +44,12 @@ export class PlacesService {
         const totalPages = Math.ceil(totalItems / limit) || 1;
 
         return {
-            "data": paginatedPlaces, 
-            "pagination": { 
-                "page": Number(page), 
-                "limit": Number(limit), 
-                "totalItems": totalItems, 
-                "totalPages": totalPages, 
+            'data': paginatedPlaces, 
+            'pagination': { 
+                'page': Number(page), 
+                'limit': Number(limit), 
+                'totalItems': totalItems, 
+                'totalPages': totalPages, 
             }
         };
 
@@ -87,7 +84,7 @@ export class PlacesService {
         const hasAppreciations = await this.appreciationRepo.findAllbyPlace(id);
 
         if (hasAppreciations.length > 0) {
-            throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
+            throw new ConflictException('Impossible de supprimer cet endroit ou service, car il possède des appréciations');
         }
         
         await this.placeRepo.delete(id);

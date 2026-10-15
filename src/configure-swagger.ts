@@ -5,12 +5,15 @@
       const config = new DocumentBuilder()
         .setTitle('Campus Rate API')
         .setDescription(
-          "API REST de gestion d'appréciation pour des endroits ou services du campus.",
+          'API REST de gestion d\'appréciation pour des endroits ou services du campus.',
         )
         .setVersion('1.0.0')
         .addTag('Places', 'Gestion des endroits ou services du campus')
-        .addTag('Appreciations', "Gestion d'appréciations associés aux endroits ou services du campus ")
+        .addTag('Appreciations', 'Gestion d\'appréciations associés aux endroits ou services du campus ')
+        .addTag('Authentification', 'Gestion des roles et de l\'authentification avec tokens JWT')
+        .addBearerAuth()
         .build();
+
 
       const documentFactory = () =>
         SwaggerModule.createDocument(app, config);

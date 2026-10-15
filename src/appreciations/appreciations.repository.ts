@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Appreciation } from "./schemas/appreciations.schema";
-import { CreateAppreciationsDto } from "./dto/create-appreciations.dto";
-import { Model } from "mongoose";
-import { UpdateAppreciationsDto } from "./dto/update-appreciations.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Appreciation } from './schemas/appreciations.schema';
+import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
+import { Model } from 'mongoose';
+import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 
 
 @Injectable()
@@ -27,7 +27,8 @@ export class AppreciationsRepository {
     }
 
     async create(dto: CreateAppreciationsDto): Promise<Appreciation> {
-        return this.appreciationModel.create(dto);
+        const newAppreciation = new this.appreciationModel(dto);
+        return newAppreciation.save();
     }
 
     async update(id: string, dto: UpdateAppreciationsDto): Promise<Appreciation | null> {
