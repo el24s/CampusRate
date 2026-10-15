@@ -1,81 +1,133 @@
 # CampusRate API
 
-> Backend de l'application **CampusRate**, une solution développée avec NestJS permettant aux étudiants de consulter les lieux et services du campus et de partager leurs appréciations.
-
----
-
 ## Stack Technique
-
 * **Framework Backend :** NestJS (Architecture modulaire, CommonJS)
 * **Langage :** TypeScript
-* **Validation des données :** `class-validator` & `class-transformer`
+* **Base de données :** MongoDB Atlas avec Mongoose
+* **Validation des données :** `class-validator` & `class-transformer`, `joi` (variables d'environnement)
+* **Sécurité :** Helmet, CORS, Throttler (rate limiting), HTTPS/TLS, JWT + RBAC
+* **Journalisation :** Winston
 * **Documentation API :** Swagger UI (`@nestjs/swagger`)
-
----
 
 ## Installation et Configuration
 
-Suivez les étapes ci-dessous pour installer et exécuter le projet localement.
-
 ### 1. Prérequis
-Assurez-vous d'avoir installé **Node.js** sur votre machine.
+- **Node.js 22.12 ou plus récent** (LTS). Avec une version plus ancienne, certains paquets NestJS récents provoquent l'erreur `ERR_REQUIRE_ESM`.
+- Un cluster **MongoDB Atlas** (ou une instance MongoDB locale)
+- **OpenSSL** pour générer le certificat HTTPS
 
 ### 2. Installation des dépendances
-Exécutez les commandes suivantes dans votre terminal :
-
 ```bash
-# Installation des paquets principaux
 npm install
-
-# Installation des paquets additionnels (si nécessaire)
+```
+```bash
 npm install typescript --save-dev
 npm install @nestjs/common
 npm install class-validator class-transformer
 npm install @nestjs/swagger
-
+npm i @nestjs/mongoose mongoose @nestjs/config joi
+npm i helmet @nestjs/throttler winston
+npm i @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
+npm i -D @types/passport-jwt
 ```
-### Configuration (.env)
-Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
-- `PORT=4000`
-- `DATA_FILE_PATH=./src/data/campus-rate.json`
 
-### Commandes disponibles
-```bash
-# Lancer l'application en mode développement
-npm run start:dev
-
-# Vérifier le code (Lint)
-npm run lint
-
-# Compiler l'application (Build)
-npm run build
-
+### 3. Configuration (.env)
+Créez un fichier `.env` à la racine, sur le modèle de `.env.example` :
 ```
+PORT=3000
+HTTP_PORT=3080
+MONGO_URI=mongodb+srv://<utilisateur>:<motdepasse>@<cluster>.mongodb.net/campusrate
+JWT_SECRET=<longue_chaine_aleatoire>
+```
+Au démarrage, `joi` vérifie que `MONGO_URI` et `JWT_SECRET` sont présents.
+
+### 4. Commandes disponibles 
+(start:dev, lint, build comme avant)
+
 ## Architecture du Projet
-
-Le projet contient les éléments ci-dessous:
-
-* Places - Gestion des lieux et services du campus
-* Appreciations - Gestion des avis et notes associés aux lieux
-* Commun - Services partagés et configuration du fichier JSON qui représente notre base de données temporaire
-
---- 
+* Places : gestion des lieux et services du campus
+* Appreciations : gestion des avis et notes associés aux lieux
+* Auth : connexion, JWT, guards (authentification et rôles)
+* Commun : filtre d'erreurs (`ProblemDetailsFilter`) et éléments partagés
+* Middleware : journalisation des requêtes (`LoggerMiddleware`)
 
 ## Choix de conception (Contrat API)
+| **Codes HTTP principaux** | `200`, `201`, `204`, `400` (validation), `401` (non authentifié), `403` (rôle insuffisant), `404`, `409`, `429` (trop de requêtes) | Sémantique HTTP standard. |
 
-| Élément | Choix retenu | Justification / Règle REST |
-| :--- | :--- | :--- |
-| **Noms des ressources** | Pluriel en anglais (`places`, `appreciations`) | Standard REST pour représenter des collections de ressources. |
-| **Versionnement** | Dans le chemin (`/api/v1/...`) | Permet d'assurer la rétrocompatibilité des clients en cas d'évolution majeure. |
-| **Imbrication** | `/places/{placeId}/appreciations` | Exprime la relation forte d'appartenance d'une appréciation envers un endroit spécifique. |
-| **Codes HTTP principaux** | `201` (Création), `204` (Suppression), `404` (Non trouvé), `409` (Conflit) | Respect strict de la sémantique HTTP standard. |
-
-
-## Limites connues
-- La persistance s'appuie sur un fichier JSON local unique, ce qui n'est pas optimisé pour de la haute concurrence en production.
-- Pas de système d'authentification des utilisateurs (le nom d'auteur est simplement saisi sous forme de chaîne de caractères).
+## Limites connues 
+- Les utilisateurs (`user1`, `admin`...) sont stockés **en mémoire** dans `AuthService`. Il n'y a pas d'inscription, et ils disparaissent à chaque redémarrage.
+- Le certificat HTTPS est auto-signé : les clients doivent accepter de ne pas le vérifier en développement.
+- Le token JWT n'est pas révocable : il reste valide jusqu'à son expiration (1 h).
 
 ---
 
-## Documentation
-- Pour accéder à la documentation interactive SwaggerUI utiliser la commande `http://localhost:3000/docs`
+# Partie 2 
+
+## Options choisies 
+- H1 - Ajouter du Rate Limiting (4)
+- H5 - Restreindre explicitement les méthodes HTTP autorisées (1)
+- T1-T4 - HTTPS/TLS (10)
+- L1-L2 - Journalisation des opérations: INFO et des erreurs ERROR (6)
+- A1 - Authentification avec JWT (5)
+- A2 - Autorisation avec RBAC (5)
+
+## Changements par rapport au TP2
+- Plus d'id codé en dur : MongoDB génère l'`_id` (24 caractères hexadécimaux).
+- Les appréciations stockent le `userId` de leur auteur, pris dans le token.
+
+## Sécurité de l'API
+- **CORS** : seules les méthodes GET, POST, PATCH, DELETE sont autorisées (H5).
+- **Helmet** : en-têtes de sécurité HTTP.
+
+Vérification du CORS (le serveur ne doit pas renvoyer `Access-Control-Allow-Origin` pour cette origine) :
+```bash
+curl.exe -ik -H "ORIGIN: http://site-malveillant.com" https://localhost:3000/api/v1/places
+```
+
+## HTTPS / TLS et redirection  
+- Générer le certificat et la clé dans `src/certs/` :
+```bash
+  openssl req -nodes -new -x509 -keyout server.key -out server.cert -days 365
+```
+- **ATTENTION : exclure `server.key`, `server.cert` et `.env` dans `.gitignore`.**
+- L'API écoute en **HTTPS sur le port 3000**.
+- Un petit serveur HTTP sur le **port 3080** redirige toute requête vers HTTPS avec un code `308` (qui conserve la méthode).
+```bash
+  curl.exe -i http://localhost:3080/api/v1/places
+  # HTTP/1.1 308 Permanent Redirect
+  # Location: https://localhost:3000/api/v1/places
+```
+- Le certificat est auto-signé : utiliser `-k` avec curl, ou désactiver la vérification SSL dans le client REST.
+
+## Authentification JWT   
+1. `POST /api/v1/auth/login` avec `{ "username": "...", "password": "..." }`
+2. La réponse contient `{ "access_token": "..." }` (valide 1 h).
+3. Envoyer le token sur les routes protégées : `Authorization: Bearer <token>`
+   (Swagger : bouton **Authorize**. Client REST : onglet Auth → Bearer.)
+4. `GET /api/v1/auth/profile` retourne l'utilisateur connecté.
+
+## Autorisation RBAC
+Deux rôles : `USER` et `ADMIN`.
+
+| Route | Accès |
+| :--- | :--- |
+| `GET /places`, `GET /places/:id`, `GET /places/:placeId/appreciations` | Public |
+| `POST`, `PATCH`, `DELETE /places` | ADMIN |
+| `POST /places/:placeId/appreciations` | USER ou ADMIN |
+| `PATCH`, `DELETE /places/:placeId/appreciations/:id` | USER (seulement ses propres appréciations) ou ADMIN (toutes : modération) |
+
+Codes : `401` sans token ou token invalide, `403` si le rôle est insuffisant ou si l'appréciation appartient à un autre utilisateur.
+
+## Rate Limiting  
+Maximum **100 requêtes par minute** (`@nestjs/throttler`, guard global). Au-delà : `429 Too Many Requests`.
+
+## Journalisation INFO & ERREURS  
+- **INFO** : chaque requête est journalisée en JSON avec Winston (méthode, chemin, code de statut, durée, horodatage).
+- **ERROR** : les erreurs sont journalisées par `ProblemDetailsFilter` (statut, méthode, chemin, message).
+- Sortie : console [et fichier `logs/app.log` : à vérifier si activé].
+
+---
+
+## Documentation   
+Swagger UI : `https://localhost:3000/docs`
+Pour tester en tant qu'admin : `POST /auth/login` → copier le token → **Authorize** (coller seulement le token, sans `Bearer`).
