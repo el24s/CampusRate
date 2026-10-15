@@ -44,12 +44,12 @@ export class PlacesService {
         const totalPages = Math.ceil(totalItems / limit) || 1;
 
         return {
-            "data": paginatedPlaces, 
-            "pagination": { 
-                "page": Number(page), 
-                "limit": Number(limit), 
-                "totalItems": totalItems, 
-                "totalPages": totalPages, 
+            'data': paginatedPlaces, 
+            'pagination': { 
+                'page': Number(page), 
+                'limit': Number(limit), 
+                'totalItems': totalItems, 
+                'totalPages': totalPages, 
             }
         };
 
@@ -84,7 +84,7 @@ export class PlacesService {
         const hasAppreciations = await this.appreciationRepo.findAllbyPlace(id);
 
         if (hasAppreciations.length > 0) {
-            throw new ConflictException("Impossible de supprimer cet endroit ou service, car il possède des appréciations");
+            throw new ConflictException('Impossible de supprimer cet endroit ou service, car il possède des appréciations');
         }
         
         await this.placeRepo.delete(id);

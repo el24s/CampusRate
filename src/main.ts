@@ -6,7 +6,8 @@ import { ProblemDetailsFilter } from './commun/filters/problem-details.filter';
 import helmet from 'helmet';
 import * as fs from 'fs';
 import path from 'path';
-import { LoggerMiddleware } from './middleware/logger.middleware';
+import * as http from 'http'
+import { Logger } from 'winston';
 
 async function bootstrap() {
     const httpsOptions = {
@@ -37,8 +38,22 @@ async function bootstrap() {
 
     app.use(helmet());
 
-    
+    const HTTPS_PORT = Number(process.env.PORT ?? 3000);
+    const HTTP_PORT = Number(process.env.HTTP_PORT ?? 3080);
+
+    await app.listen(HTTPS_PORT);
+    // const redirectLogger = new Logger('HttpRedirect');
+    http
+      .createServer((req, res) => {
+        const host = (req.headers.host ?? 'localhost').replace(/:\d+$/, '');
+        res.writeHead(308, {
+          Location: `https://${host}:${HTTPS_PORT}${req.url}`,
+        });
+        res.end();
+      })
+      .listen(HTTP_PORT, () => {
+      // redirectLogger.log(`Redirection HTTP: ${HTTP_PORT} -> HTTPS: ${HTTPS_PORT}`);
+      })
     configureSwagger(app);
-    await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

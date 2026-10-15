@@ -21,7 +21,7 @@ export class ProblemDetailsFilter implements ExceptionFilter {
     const exceptionResponse = exception.getResponse();
 
     this.logger.error(
-      `[ERROR] Status${status} | Method: ${request.method} | Path: ${request.url} | MessageL ${exception.message}`,
+      `[ERROR] Status${status} | Method: ${request.method} | Path: ${request.url} | Message: ${exception.message}`,
       exception.stack,
     )
     
