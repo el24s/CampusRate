@@ -4,10 +4,17 @@ import { ValidationPipe } from '@nestjs/common';
 import { configureSwagger } from './configure-swagger';
 import { ProblemDetailsFilter } from './commun/filters/problem-details.filter';
 import helmet from 'helmet';
+import * as fs from 'fs';
+import path from 'path';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    
+    const httpsOptions = {
+      key: fs.readFileSync(path.join(__dirname, './certs/server.key')),
+      cert: fs.readFileSync(path.join(__dirname, './certs/server.cert')),
+    };
+
+    const app = await NestFactory.create(AppModule, { httpsOptions });
+
     app.setGlobalPrefix('api/v1');
 
     app.useGlobalPipes(
