@@ -4,18 +4,27 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  Logger
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ProblemDetailsDto } from '../dto/problems-details.dto';
 
 @Catch(HttpException)
 export class ProblemDetailsFilter implements ExceptionFilter {
+  private readonly logger = new Logger(ProblemDetailsFilter.name);
+
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest();
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
 
+    this.logger.error(
+      `[ERROR] Status${status} | Method: ${request.method} | Path: ${request.url} | MessageL ${exception.message}`,
+      exception.stack,
+    )
+    
     const problemDetails: ProblemDetailsDto = {
       type: 'about:blank',
       title: HttpStatus[status] || 'Error',
