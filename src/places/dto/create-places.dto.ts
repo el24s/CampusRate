@@ -1,11 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsEnum, IsNotEmpty, IsString, MaxLength } from "class-validator";
-import { PlaceStatus, PlacesCategories, PlacesServiceType } from "../places.enum";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsEnum, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { PlaceStatus, PlacesCategories, PlacesServiceType } from '../places.enum';
 
 export class CreatePlacesDto {
     @ApiProperty({
-        description: "Le nom d'un endroit",
-        example: "Bibliothèque principale",
+        description: 'Le nom d\'un endroit',
+        example: 'Bibliothèque principale',
         maxLength: 50
     })
     @IsString()
@@ -14,15 +14,15 @@ export class CreatePlacesDto {
     name: string;
 
     @ApiProperty({
-        description: "La description d'un endroit",
-        example: "Espace calme avec prises"
+        description: 'La description d\'un endroit',
+        example: 'Espace calme avec prises'
     })
     @IsString()
     @IsNotEmpty()
     description: string;
 
     @ApiProperty({
-        description: "La catégorie d'un endroit",
+        description: 'La catégorie d\'un endroit',
         example: PlacesCategories.STUDY_SPACE
     })
     @IsString()
@@ -31,15 +31,15 @@ export class CreatePlacesDto {
     category: PlacesCategories;
 
     @ApiProperty({
-        description: "L'addresse d'un endroit",
-        example: "Pavillon A, local A-210"
+        description: 'L\'addresse d\'un endroit',
+        example: 'Pavillon A, local A-210'
     })
     @IsString()
     @IsNotEmpty()
     address: string;
 
     @ApiProperty({
-        description: "Le type de service",
+        description: 'Le type de service',
         enum: PlacesServiceType,
         isArray: true,
         example: [PlacesServiceType.WIFI, PlacesServiceType.POWER_OUTLETS],
@@ -49,8 +49,8 @@ export class CreatePlacesDto {
     services!: PlacesServiceType[];
 
     @ApiProperty({
-        description: "Le statut d'un endroit",
-        example: "ACTIVE"
+        description: 'Le statut d\'un endroit',
+        example: 'ACTIVE'
     })
     @IsEnum(PlaceStatus)
     status: PlaceStatus;

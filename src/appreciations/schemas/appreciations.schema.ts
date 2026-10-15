@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsDate, IsISO8601, IsMongoId, IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 @Schema({timestamps: true})
 export class Appreciation extends Document {
@@ -8,6 +8,11 @@ export class Appreciation extends Document {
     @IsNotEmpty()
     @Prop({ required: true, unique: true })
     placeId: string
+
+    @IsNumber()
+    @IsNotEmpty()
+    @Prop({ required: true })
+    userId: number
 
     @IsString()
     @IsNotEmpty()
