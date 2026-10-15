@@ -6,6 +6,7 @@ import { ProblemDetailsFilter } from './commun/filters/problem-details.filter';
 import helmet from 'helmet';
 import * as fs from 'fs';
 import path from 'path';
+import { LoggerMiddleware } from './middleware/logger.middleware';
 
 async function bootstrap() {
     const httpsOptions = {
@@ -29,13 +30,14 @@ async function bootstrap() {
     app.useGlobalFilters(new ProblemDetailsFilter());
 
     app.enableCors({
-      origin: ['http://localhost:3000'],
+      origin: ['https://localhost:3000'],
       methods: 'GET,POST,PATCH,DELETE',
       allowedHeaders: ['Content-Type'],
     });
 
     app.use(helmet());
 
+    
     configureSwagger(app);
     await app.listen(process.env.PORT ?? 3000);
 }
