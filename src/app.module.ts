@@ -3,6 +3,7 @@ import { PlacesModule } from './places/places.module';
 import { AppreciationsModule } from './appreciations/appreciations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
 import Joi from 'joi';
 
 @Module({
@@ -25,7 +26,8 @@ import Joi from 'joi';
     }),
 
     PlacesModule,
-    AppreciationsModule
+    AppreciationsModule,
+    UsersModule
   ],
   controllers: [],
   providers: [],
