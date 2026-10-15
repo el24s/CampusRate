@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import * as fs from 'fs';
 import path from 'path';
 import * as http from 'http'
-import { Logger } from 'winston';
 
 async function bootstrap() {
     const httpsOptions = {
@@ -43,7 +42,6 @@ async function bootstrap() {
     
     configureSwagger(app);
     await app.listen(HTTPS_PORT);
-    // const redirectLogger = new Logger('HttpRedirect');
     http
       .createServer((req, res) => {
         const host = (req.headers.host ?? 'localhost').replace(/:\d+$/, '');
@@ -53,7 +51,6 @@ async function bootstrap() {
         res.end();
       })
       .listen(HTTP_PORT, () => {
-      // redirectLogger.log(`Redirection HTTP: ${HTTP_PORT} -> HTTPS: ${HTTPS_PORT}`);
       })
     
 }
