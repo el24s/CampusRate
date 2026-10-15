@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { PlacesCategories, PlaceStatus, PlacesServiceType } from '../places.enum';
 import { IsDate, IsEmpty, IsEnum, IsISO8601, IsNotEmpty, IsNumber, IsString, Max } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Schema({ timestamps: true })
 export class Place extends Document {

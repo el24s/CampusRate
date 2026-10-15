@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Appreciation } from "./schemas/appreciations.schema";
-import { CreateAppreciationsDto } from "./dto/create-appreciations.dto";
-import { Model } from "mongoose";
-import { UpdateAppreciationsDto } from "./dto/update-appreciations.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Appreciation } from './schemas/appreciations.schema';
+import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
+import { Model } from 'mongoose';
+import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
 
 
 @Injectable()
