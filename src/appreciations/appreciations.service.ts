@@ -1,21 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppreciationsDto } from './dto/create-appreciations.dto';
-import { PlacesService } from '../places/places.service';
-import { randomBytes }  from 'crypto';
-import { DatabaseService } from '../commun/service/database.service';
 import { UpdateAppreciationsDto } from './dto/update-appreciations.dto';
+import { AppreciationsRepository } from './appreciations.repository';
+import { PlacesRepository } from '../places/places.repository';
+import { Role } from '../auth/enum/role.enum';
 
 
 @Injectable()
 export class AppreciationsService {
 
     constructor (
-        private readonly placesService : PlacesService,
-        private readonly dbService : DatabaseService
+        private readonly placesRepo : PlacesRepository,
+        private readonly appreciationsRepo : AppreciationsRepository,
     ) {}
 
-    private async updatePlaceInfos(placeId: string, data : any) {
-        const placeApp = data.appreciations.filter(p => p.placeId === placeId);
+    private async updatePlaceInfos(placeId: string) {
+
+        const placeApp = await this.findAllByPlace(placeId);
 
         const reviewCount = placeApp.length;
 
@@ -26,91 +27,79 @@ export class AppreciationsService {
             averageRating = Number((sum / reviewCount).toFixed(2));
         }
 
-        data.places = data.places.map(p => {
-            if (p.id === placeId) {
-                return {
-                    ...p,
-                    averageRating,
-                    reviewCount,
-                    updatedAt: new Date().toISOString()
-                };
-            }
-            return p;
+        await this.placesRepo.update(placeId, {
+            reviewCount,
+            averageRating,
+            updatedAt: new Date()
         });
     }
 
-    async create(placeId : string, dto :CreateAppreciationsDto) {
-        const customId = randomBytes(4).toString('hex');
+    async create(placeId: string, dto: CreateAppreciationsDto, userId: number) {
 
-        const place = await this.placesService.findById(placeId);
-        const data = await this.dbService.readDatabase();
+        const place = await this.placesRepo.findById(placeId);
 
         if(!place) {
             throw new NotFoundException(`L'endroit ou le service avec l'id ${placeId} n'existe pas`);
         } 
 
         const newAppreciation = {
-            id: `rev_${customId}`,
             placeId: placeId,
             ...dto,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            userId,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         };
 
-        data.appreciations.push(newAppreciation);
-        await this.updatePlaceInfos(placeId, data);
-        await this.dbService.writeDatabase(data);
+        await this.appreciationsRepo.create(newAppreciation);        
+        await this.updatePlaceInfos(placeId);
 
         return newAppreciation;
     }
 
 
     async findAllByPlace(placeId : string) {
-        await this.placesService.findById(placeId);
-        const data = await this.dbService.readDatabase();
-        const results = data.appreciations.filter(p => p.placeId === placeId);
+        await this.placesRepo.findById(placeId);
+        
+        const results = await this.appreciationsRepo.findAllbyPlace(placeId);
 
         return results;
     }
 
     async findById(id : string) {
-        const data = await this.dbService.readDatabase();
-        const appreciation =data.appreciations.find(p => p.id === id);
+        const appreciation = await this.appreciationsRepo.findById(id);
 
         if (!appreciation) {
             throw new NotFoundException(`L'appréciation avec l'id ${id} n'existe pas`)
         }
 
         return appreciation;
-
     }
 
-    async update(id: string, dto : UpdateAppreciationsDto) {
+    async update(id: string, dto : UpdateAppreciationsDto, user: { userId: number; role: Role}) {
         const appreciation = await this.findById(id);
-        const data = await this.dbService.readDatabase();
+        this.verifierProprietaire(appreciation, user);
 
-        const updateApppreciation = {
-            ...appreciation,
-            ...dto,
-            updatedAt: new Date().toISOString()
-        };
-
-        data.appreciations = data.appreciations.map(p => p.id === id ? updateApppreciation : p);
-        await this.updatePlaceInfos(appreciation.placeId, data);
-        await this.dbService.writeDatabase(data);
-
+        const updateApppreciation = await this.appreciationsRepo.update(id, { ...dto} );
+        await this.updatePlaceInfos(appreciation.placeId);
         return updateApppreciation;
-
     }
 
-    async remove(id : string) {
+    async remove(id : string, user: { userId: number; role: Role}) {
         const appreciation = await this.findById(id);
-        const data = await this.dbService.readDatabase();
-    
-        data.appreciations = data.appreciations.filter(p => p.id !== id);
-        await this.updatePlaceInfos(appreciation.placeId, data);
-        await this.dbService.writeDatabase(data);
+        this.verifierProprietaire(appreciation, user);
+        
+        await this.appreciationsRepo.delete(id);
+        await this.updatePlaceInfos(appreciation.placeId);
 
         return;
+    }
+
+    private verifierProprietaire(appreciation: { userId: number }, user: { userId: number; role: Role }) {
+        const estProprietaire = appreciation.userId === user.userId;
+        const estAdmin = user.role === Role.ADMIN;
+
+        if(!estProprietaire && !estAdmin) {
+            throw new ForbiddenException('Ce n\'est pas votre appréciation');
+        }
     }
 }
